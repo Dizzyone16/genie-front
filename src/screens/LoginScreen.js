@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react'
 import {
   View,
   Text,
@@ -10,43 +10,43 @@ import {
   Vibration,
   StatusBar,
   Alert,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from 'react-native'
+import {useNavigation} from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 //utils
-import backendApi from '../utils/backendApi';
+import backendApi from '../utils/backendApi'
 
 // stores
-import AuthStore from '../stores/AuthStore';
-import UserStore from '../stores/UserStore';
+import AuthStore from '../stores/AuthStore'
+import UserStore from '../stores/UserStore'
 
 // 해당 스크린에서 남은 과제 - 실제 인증코드 구현하기
 const LoginScreen = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [showVerificationButton, setShowVerificationButton] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [showVerificationButton, setShowVerificationButton] = useState(false)
+  const [verificationCode, setVerificationCode] = useState('')
 
-  const navigation = useNavigation();
-  const textInputRef = useRef();
-  const animatedValue = new Animated.Value(0);
+  const navigation = useNavigation()
+  const textInputRef = useRef()
+  const animatedValue = new Animated.Value(0)
 
   const handleLogin = async () => {
     if (phoneNumber.slice(0, 3) === '010' && phoneNumber?.length === 11) {
-      const result = await backendApi.loginOrRegisterUser(phoneNumber);
+      const result = await backendApi.loginOrRegisterUser(phoneNumber)
 
       if (result?.token && result?.userId) {
-        AuthStore?.setToken(result?.token);
-        AsyncStorage.setItem('@authToken', result?.token);
-        await UserStore?.setUserId(result?.userId);
+        AuthStore?.setToken(result?.token)
+        AsyncStorage.setItem('@authToken', result?.token)
+        await UserStore?.setUserId(result?.userId)
 
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeScreen')
       } else {
         Alert.alert(
           '',
           '로그인에 실패했어요. 계속 진행이 안될 시 고객센터로 문의주세요.',
           [{text: '확인'}],
-        );
+        )
       }
     } else {
       Animated.sequence([
@@ -65,34 +65,23 @@ const LoginScreen = () => {
           duration: 50,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
 
-      Vibration.vibrate(10);
+      Vibration.vibrate(10)
     }
-  };
+  }
 
   useEffect(() => {
     if (phoneNumber?.length === 11) {
-      setShowVerificationButton(true);
+      setShowVerificationButton(true)
     } else {
-      setShowVerificationButton(false);
+      setShowVerificationButton(false)
     }
-  }, [phoneNumber]);
-
-  useEffect(
-    () => {
-      // if (needsFocus) {
-      textInputRef.current?.focus();
-      // }
-    },
-    [
-      // needsFocus
-    ],
-  );
+  }, [phoneNumber])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
+      <StatusBar backgroundColor='#FFFFFF' barStyle='dark-content' />
       <View style={styles.container}>
         <Text style={styles.header}>
           {phoneNumber?.length !== 11
@@ -101,11 +90,12 @@ const LoginScreen = () => {
         </Text>
         <TextInput
           style={styles.input}
-          placeholder="휴대폰 번호 입력"
+          placeholder='휴대폰 번호 입력'
           value={phoneNumber}
           onChangeText={setPhoneNumber}
-          keyboardType="numeric"
+          keyboardType='numeric'
           maxLength={11}
+          autoFocus={true}
         />
         <View style={styles.bottomBar}>
           <Animated.View
@@ -123,8 +113,8 @@ const LoginScreen = () => {
         </View>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
@@ -173,6 +163,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   buttonText: {color: 'white', fontSize: 18},
-});
+})
 
-export default LoginScreen;
+export default LoginScreen
