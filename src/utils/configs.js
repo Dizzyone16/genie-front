@@ -1,10 +1,13 @@
-const {NODE_ENV_USER} = process.env;
+import {NODE_ENV, BACKEND_URL_DEVELOPMENT, BACKEND_URL_PRODUCTION} from '@env'
 
 const configs = {
-  backendUri: null,
-};
-
-if (NODE_ENV_USER === 'development') {
-  console.log('yaya');
-  configs.backendUri = 'http://127.0.0.1:3001';
+  backendUrl: null,
 }
+
+if (NODE_ENV === 'development') {
+  configs.backendUrl = BACKEND_URL_DEVELOPMENT
+} else if (NODE_ENV === 'production') {
+  configs.backendUrl = BACKEND_URL_PRODUCTION
+}
+
+export default configs

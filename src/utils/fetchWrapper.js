@@ -1,16 +1,16 @@
-import AuthStore from '../stores/AuthStore';
+import AuthStore from '../stores/AuthStore'
 
 const updateHeader = options => {
-  const updatedOptions = {...options};
-  if (AuthStore.token !== '') {
+  const updatedOptions = {...options}
+  if (AuthStore?.token !== '') {
     updatedOptions.headers = {
       ...updatedOptions.headers,
-      'x-access-token': AuthStore.token,
-    };
+      'x-access-token': AuthStore?.token,
+    }
   }
-  return updatedOptions;
-};
+  return updatedOptions
+}
 
 export default async function fetchWrapper(url, options) {
-  return fetch(url, updateHeader(options));
+  return fetch(url, updateHeader(options))
 }

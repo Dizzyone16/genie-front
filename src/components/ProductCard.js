@@ -1,13 +1,22 @@
-import React from 'react';
-import {View, TouchableOpacity, Text, Image, SafeAreaView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import commaNumber from 'comma-number';
+import React from 'react'
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  SafeAreaView,
+  useWindowDimensions,
+} from 'react-native'
+import {useNavigation} from '@react-navigation/native'
+import commaNumber from 'comma-number'
 
 // components
-import RatingInfo from './RatingInfo';
+import RatingInfo from './RatingInfo'
 
 const ProductCard = ({product}) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
+  const dims = useWindowDimensions()
+  const ITEM_WIDTH = dims.width - 50
 
   return (
     // <View
@@ -23,12 +32,12 @@ const ProductCard = ({product}) => {
         backgroundColor: 'white',
       }}>
       <TouchableOpacity
-        style={{backgroundColor: 'white', paddingBottom: 25}}
+        style={{backgroundColor: 'white', paddingBottom: 25, width: ITEM_WIDTH}}
         activeOpacity={1.0}
         onPress={() => {
           navigation.push('ProductDetailScreen', {
-            productUr: product?.productUrl,
-          });
+            catalogNumber: product?.catalogNumber,
+          })
         }}>
         <View
           style={{
@@ -43,7 +52,7 @@ const ProductCard = ({product}) => {
               height: 130,
             }}>
             <Image
-              source={{uri: decodeURIComponent(product?.imageUri)}}
+              source={{uri: decodeURIComponent(product?.imageUrl)}}
               style={{
                 width: '100%',
                 height: '100%',
@@ -59,8 +68,17 @@ const ProductCard = ({product}) => {
               flexDirection: 'column',
               justifyContent: 'center',
               marginLeft: 20,
+              width: dims.width - 200,
             }}>
-            <Text style={{fontSize: 16, color: 'black'}}>{product?.title}</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: 'black',
+                // flexWrap: 'wrap',
+              }}
+              numberOfLines={2}>
+              {product?.title}
+            </Text>
             <View
               style={{
                 marginTop: 7,
@@ -74,7 +92,7 @@ const ProductCard = ({product}) => {
                   color: '#EA3323',
                   fontWeight: 'bold',
                 }}>
-                {commaNumber(product?.price)}
+                {commaNumber(product?.lowestPrice)}
               </Text>
               <Text style={{fontSize: 14, color: '#EA3323'}}>원</Text>
             </View>
@@ -86,17 +104,19 @@ const ProductCard = ({product}) => {
               style={{marginTop: 6}}
             />
 
-            <View style={{marginTop: 4}}>
-              <Text style={{fontSize: 14, color: 'black'}}>
-                판매처 {commaNumber(product?.sellerCount)}
-              </Text>
-            </View>
+            {product?.sellerCount > 0 && (
+              <View style={{marginTop: 4}}>
+                <Text style={{fontSize: 14, color: 'black'}}>
+                  판매처 {commaNumber(product?.sellerCount)}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </TouchableOpacity>
     </SafeAreaView>
     // </View>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

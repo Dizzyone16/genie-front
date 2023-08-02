@@ -1,60 +1,68 @@
-import React, {useEffect} from 'react';
+import React from 'react'
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
-  Platform,
-} from 'react-native';
+} from 'react-native'
+import FastImage from 'react-native-fast-image'
 
 // utils
-import ImageUtil from '../utils/ImageUtil';
+import ImageUtil from '../utils/ImageUtil'
+
+//images
+import Search from '../images/Search.png'
 
 const HomeScreen = ({navigation}) => {
-  const genie = require('../images/Genie.png');
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      console.log('durl');
-      StatusBar.setBackgroundColor('#FFFFFF');
-    }
-  }, []);
+  const genie = require('../images/Genie.png')
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-      {/* <View style={{flex: 1}}>
-        <ImageUtil source={genie} size={12} />
-      </View> */}
-      <View style={styles.container}>
+      <StatusBar backgroundColor='#FFFFFF' barStyle='dark-content' />
+      <View
+        style={{
+          flex: 0.7,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View>
+          <FastImage source={genie} style={{width: 144, height: 48}} />
+        </View>
+
         {/* Search Section */}
-        <TouchableOpacity
-          style={styles.searchSection}
-          onPress={() => navigation.navigate('SearchScreen')}>
-          <Text
-            style={{
-              fontSize: 16,
-              color: '#C6C6C6',
-              lineHeight: 16.8,
-              paddingLeft: 15,
-            }}>
-            상품을 검색해보세요
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.searchSection}
+            onPress={() => navigation.navigate('SearchScreen')}>
+            <ImageUtil
+              source={Search}
+              style={{width: 16.25, height: 15.75, marginLeft: 14}}
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                color: '#C6C6C6',
+                lineHeight: 16.8,
+                paddingLeft: 15,
+              }}>
+              상품을 검색해보세요
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
     paddingHorizontal: 25,
+    marginTop: 32,
     flexDirection: 'row',
     height: 44,
   },
@@ -73,6 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-});
+})
 
-export default HomeScreen;
+export default HomeScreen

@@ -9,9 +9,17 @@ import {
   Animated,
   Vibration,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//utils
 import backendApi from '../utils/backendApi';
+
+// stores
+import AuthStore from '../stores/AuthStore';
+import UserStore from '../stores/UserStore';
 
 // 해당 스크린에서 남은 과제 - 실제 인증코드 구현하기
 const LoginScreen = () => {
@@ -26,8 +34,19 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     if (phoneNumber.slice(0, 3) === '010' && phoneNumber?.length === 11) {
       const result = await backendApi.loginOrRegisterUser(phoneNumber);
-      if (result?.status === 200 && result?.data) {
+
+      if (result?.token && result?.userId) {
+        AuthStore?.setToken(result?.token);
+        AsyncStorage.setItem('@authToken', result?.token);
+        await UserStore?.setUserId(result?.userId);
+
         navigation.navigate('HomeScreen');
+      } else {
+        Alert.alert(
+          '',
+          '로그인에 실패했어요. 계속 진행이 안될 시 고객센터로 문의주세요.',
+          [{text: '확인'}],
+        );
       }
     } else {
       Animated.sequence([
@@ -48,7 +67,7 @@ const LoginScreen = () => {
         }),
       ]).start();
 
-      Vibration.vibrate(100);
+      Vibration.vibrate(10);
     }
   };
 

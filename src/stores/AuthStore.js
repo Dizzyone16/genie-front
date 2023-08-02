@@ -1,18 +1,30 @@
-import {makeObservable, observable, action} from 'mobx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {makeObservable, observable, action} from 'mobx'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class AuthStore {
-  token = '';
+  token = ''
   constructor() {
     makeObservable(this, {
       token: observable,
-      setIsToken: action,
-    });
+      setToken: action,
+    })
   }
 
-  setIsToken(token) {
-    this.token = token;
+  setToken(token) {
+    this.token = token
+  }
+
+  async loadToken() {
+    if (this?.token === '') {
+      const userToken = await AsyncStorage.getItem('@authToken')
+      if (userToken) {
+        this.setToken(userToken)
+
+        return userToken
+      }
+    }
+    return this.token
   }
 }
 
-export default new AuthStore();
+export default new AuthStore()
