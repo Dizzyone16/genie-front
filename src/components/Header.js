@@ -1,17 +1,17 @@
-import {View, TouchableOpacity, TextInput, Platform} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {View, TouchableOpacity, TextInput, Platform} from 'react-native'
+import {useSafeAreaInsets} from 'react-native-safe-area-context'
 
 // utils
-import ImageUtil from '../utils/ImageUtil';
+import ImageUtil from '../utils/ImageUtil'
 
 // imags
-import Back from '../images/Back.png';
-import Search from '../images/Search.png';
-import {useNavigation} from '@react-navigation/native';
+import Back from '../images/Back.png'
+import Search from '../images/Search.png'
+import {useNavigation} from '@react-navigation/native'
 
 const Header = ({headerType, title, query, handleSearch, setQuery}) => {
-  const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const insets = useSafeAreaInsets()
+  const navigation = useNavigation()
 
   const renderHeaderContent = () => {
     switch (headerType) {
@@ -41,23 +41,23 @@ const Header = ({headerType, title, query, handleSearch, setQuery}) => {
                 height: 44,
                 alignItems: 'center',
               }}
-              placeholder="상품을 검색해보세요"
-              placeholderTextColor="#8D94A0"
-              keyboardType="default"
+              placeholder='상품을 검색해보세요'
+              placeholderTextColor='#8D94A0'
+              keyboardType='default'
               autoFocus={true}
-              returnKeyType="search"
+              returnKeyType='search'
               onSubmitEditing={() => handleSearch(query)}
               value={query}
               onChangeText={async text => {
-                setQuery(text);
+                setQuery(text)
               }}
             />
           </View>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <View
@@ -80,7 +80,7 @@ const Header = ({headerType, title, query, handleSearch, setQuery}) => {
         {renderHeaderContent()}
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

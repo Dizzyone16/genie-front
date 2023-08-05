@@ -27,6 +27,7 @@ const SearchScreen = () => {
           setSearchResult(result?.data)
         }
       }
+      backendApi.logEvent('search', {query: query})
     }
   }
 
@@ -48,15 +49,27 @@ const SearchScreen = () => {
       {searchResult?.length === 0 ? (
         <Text style={styles.noResultsText}>검색 결과가 없어요</Text>
       ) : (
-        <View style={{paddingTop: insets.top + 48}}>
-          <View style={{paddingTop: 32}}>
-            <FlatList
-              data={searchResult}
-              renderItem={({item}) => <ProductCard product={item} />}
-              contentContainerStyle={{marginHorizontal: 25}}
-              // keyExtractor={keyExtractor}
-            />
-          </View>
+        <View style={{paddingTop: insets.top + 59}}>
+          <FlatList
+            ListHeaderComponent={
+              <View>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'black',
+                    fontWeight: '600',
+                    marginTop: 32,
+                    marginBottom: 22,
+                  }}>
+                  최저가비교
+                </Text>
+              </View>
+            }
+            data={searchResult}
+            renderItem={({item}) => <ProductCard product={item} />}
+            contentContainerStyle={{marginHorizontal: 25}}
+            // keyExtractor={keyExtractor}
+          />
         </View>
       )}
     </View>

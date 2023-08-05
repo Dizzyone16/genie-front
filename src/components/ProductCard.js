@@ -74,7 +74,6 @@ const ProductCard = ({product}) => {
               style={{
                 fontSize: 16,
                 color: 'black',
-                // flexWrap: 'wrap',
               }}
               numberOfLines={2}>
               {product?.title}
@@ -95,6 +94,7 @@ const ProductCard = ({product}) => {
                 {commaNumber(product?.lowestPrice)}
               </Text>
               <Text style={{fontSize: 14, color: '#EA3323'}}>원</Text>
+              <Text style={{fontSize: 12}}> 배송비 포함</Text>
             </View>
 
             {/* rating score & count */}

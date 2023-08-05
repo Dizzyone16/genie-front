@@ -40,6 +40,7 @@ const ProductDetailScreen = ({route}) => {
             setProductDetailData(result?.data)
           }
         }
+        backendApi.logEvent('catalog_click', {catalogNumber: catalogNumber})
       } catch (err) {
         console.log(err)
       }
@@ -61,80 +62,92 @@ const ProductDetailScreen = ({route}) => {
         <Header />
 
         {Object.keys(productDetailData).length > 0 && (
-          <ScrollView
-            contentContainerStyle={{
-              ...styles?.scrollContentContainer,
-            }}
-            style={{flex: 1, paddingTop: insets.top + 48}}>
-            {/* 이미지 */}
-            <View
-              style={{
-                width: screenWidth,
-                aspectRatio: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={{uri: decodeURIComponent(productDetailData?.imageUrl)}}
-                style={{width: screenWidth, height: screenWidth}}
-              />
-            </View>
-
-            {/* 상품 정보 */}
-            <View
-              style={{paddingHorizontal: 25, paddingTop: 30, marginBottom: 52}}>
-              {/* 타이틀 */}
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                  {productDetailData?.title}
-                </Text>
-              </View>
-
-              {/* 평점 및 리뷰 개수 */}
-              <RatingInfo
-                ratingScore={productDetailData?.ratingScore}
-                ratingCount={productDetailData?.ratingCount}
-                style={{marginTop: 8}}
-              />
-
-              {/* 가격 정보 */}
+          <>
+            <ScrollView
+              contentContainerStyle={{
+                ...styles?.scrollContentContainer,
+              }}
+              style={{flex: 1, paddingTop: insets.top + 48}}>
+              {/* 이미지 */}
               <View
                 style={{
-                  marginTop: 20,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  width: screenWidth,
+                  aspectRatio: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}>
+                <Image
+                  source={{
+                    uri: decodeURIComponent(productDetailData?.imageUrl),
+                  }}
+                  style={{width: screenWidth, height: screenWidth}}
+                />
+              </View>
+
+              {/* 상품 정보 */}
+              <View
+                style={{
+                  paddingHorizontal: 25,
+                  paddingTop: 30,
+                  marginBottom: 42,
+                }}>
+                {/* 타이틀 */}
                 <View>
-                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                    <Text style={{fontSize: 20, color: '#EA3323'}}>
-                      최저가{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: '#EA3323',
-                        fontWeight: 'bold',
-                      }}>
-                      {commaNumber(productDetailData?.lowestPrice)}
-                    </Text>
-                    <Text style={{fontSize: 20, color: '#EA3323'}}>원 </Text>
-                  </View>
-                  {productDetailData?.originalPrice && (
-                    <View style={{marginTop: 8}}>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          textDecorationLine: 'line-through',
-                        }}>
-                        {commaNumber(productDetailData?.originalPrice)}원
-                      </Text>
-                    </View>
-                  )}
+                  <Text
+                    style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
+                    {productDetailData?.title}
+                  </Text>
                 </View>
 
-                {/* 아이폰일때만.. */}
-                {/* <View
+                {/* 평점 및 리뷰 개수 */}
+                <RatingInfo
+                  ratingScore={productDetailData?.ratingScore}
+                  ratingCount={productDetailData?.ratingCount}
+                  style={{marginTop: 8}}
+                />
+
+                {/* 가격 정보 */}
+                <View
+                  style={{
+                    marginTop: 14,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <View>
+                    <View
+                      style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                      <Text style={{fontSize: 20, color: '#EA3323'}}>
+                        최저가{' '}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 22,
+                          color: '#EA3323',
+                          fontWeight: 'bold',
+                        }}>
+                        {commaNumber(productDetailData?.lowestPrice)}
+                      </Text>
+                      <Text style={{fontSize: 20, color: '#EA3323'}}>원 </Text>
+                    </View>
+                    {productDetailData?.originalPrice && (
+                      <View style={{marginTop: 8}}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            textDecorationLine: 'line-through',
+                          }}>
+                          {commaNumber(productDetailData?.originalPrice)}원
+                        </Text>
+                      </View>
+                    )}
+
+                    <View style={{marginTop: 4}}>
+                      <Text style={{fontSize: 14}}>배송비 포함</Text>
+                    </View>
+                  </View>
+
+                  {/* 아이폰일때만.. */}
+                  {/* <View
               style={{
                 paddingHorizontal: 15,
                 paddingVertical: 13,
@@ -155,75 +168,79 @@ const ProductDetailScreen = ({route}) => {
                 </Text>
               </TouchableOpacity>
             </View> */}
+                </View>
               </View>
-            </View>
 
-            {/* low price mall list */}
-            <Divider />
+              {/* low price mall list */}
+              <Divider />
 
-            <View style={{marginTop: 32, paddingHorizontal: 25}}>
-              <View style={{marginBottom: 20}}>
-                <Text
-                  style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-                  판매처
-                </Text>
-              </View>
-              {productDetailData?.mallList?.map((mall, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      height: 60,
-                    }}
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      navigation.navigate('ProductWebViewScreen', {
-                        uri: mall?.mallUrl,
-                      })
-                    }}>
-                    <View>
-                      <Text style={{fontSize: 18, color: 'black'}}>
-                        {mall?.sellerName}
-                      </Text>
-                    </View>
-                    <View
+              <View style={{marginTop: 32, paddingHorizontal: 25}}>
+                <View style={{marginBottom: 20}}>
+                  <Text
+                    style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+                    판매처
+                  </Text>
+                </View>
+                {productDetailData?.mallList?.map((mall, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
                       style={{
                         flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        height: 60,
+                      }}
+                      activeOpacity={0.8}
+                      onPress={() => {
+                        navigation.navigate('ProductWebViewScreen', {
+                          uri: mall?.mallUrl,
+                        })
+                        backendApi.logEvent('mallSelect', {
+                          productName: productDetailData?.title,
+                          mallName: mall?.sellerName,
+                          url: mall?.mallUrl,
+                        })
                       }}>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                          color: index === 0 ? '#EA3323' : 'black',
-                        }}>
-                        {commaNumber(mall?.price)}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          color: index === 0 ? '#EA3323' : 'black',
-                        }}>
-                        원{' '}
-                      </Text>
-                      <View style={{justifyContent: 'center', marginLeft: 2}}>
-                        <ImageUtil
-                          source={ArrowForward}
-                          style={{height: 12, width: 8}}
-                        />
+                      <View>
+                        <Text style={{fontSize: 18, color: 'black'}}>
+                          {mall?.sellerName}
+                        </Text>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                )
-              })}
-            </View>
-          </ScrollView>
-        )}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            color: index === 0 ? '#EA3323' : 'black',
+                          }}>
+                          {commaNumber(mall?.price)}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color: index === 0 ? '#EA3323' : 'black',
+                          }}>
+                          원{' '}
+                        </Text>
+                        <View style={{justifyContent: 'center', marginLeft: 2}}>
+                          <ImageUtil
+                            source={ArrowForward}
+                            style={{height: 12, width: 8}}
+                          />
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                })}
+              </View>
+            </ScrollView>
 
-        {/* Bottom Order Bar */}
-        {/* <BlurView
+            {/* Bottom Order Bar */}
+            {/* <BlurView
           style={{
             position: 'absolute',
             left: 0,
@@ -235,39 +252,46 @@ const ProductDetailScreen = ({route}) => {
           blurAmount={100} // Adjust the blur amount as needed
           reducedTransparencyFallbackColor='white'
         /> */}
-        <View
-          style={{
-            position: 'absolute',
-            flex: 1,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 58,
-            backgroundColor: 'white',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 1}}>
-            <TouchableOpacity
-              activeOpacity={0.85}
+            <View
               style={{
-                marginHorizontal: 20,
-                height: '100%',
+                position: 'absolute',
+                flex: 1,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 58,
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#4880EE',
-                borderRadius: 16,
-              }}
-              onPress={() => {
-                navigation.navigate('ProductWebViewScreen', {
-                  uri: productDetailData?.lowestPriceUrl,
-                })
               }}>
-              <Text style={{color: 'white', fontSize: 18}}>구매하기</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <View style={{flex: 1}}>
+                <TouchableOpacity
+                  activeOpacity={0.85}
+                  style={{
+                    marginHorizontal: 20,
+                    height: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#4880EE',
+                    borderRadius: 16,
+                  }}
+                  onPress={() => {
+                    navigation.navigate('ProductWebViewScreen', {
+                      uri: productDetailData?.lowestPriceUrl,
+                    })
+                    backendApi.logEvent('mallSelect', {
+                      productName: productDetailData?.title,
+                      mallName: productDetailData?.mallList[0]?.sellerName,
+                      url: productDetailData?.mallList[0]?.mallUrl,
+                    })
+                  }}>
+                  <Text style={{color: 'white', fontSize: 18}}>구매하기</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        )}
       </SafeAreaView>
     </>
   )

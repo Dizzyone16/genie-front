@@ -11,9 +11,10 @@ import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import ProductWebViewScreen from '../screens/ProductWebViewScreen'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import SplashScreen from '../screens/SplashScreen'
 import {useNavigation} from '@react-navigation/native'
+import AuthStore from '../stores/AuthStore'
+import backendApi from '../utils/backendApi'
 
 const Stack = createStackNavigator()
 const isAndroid = Platform.OS === 'android'
@@ -32,11 +33,12 @@ const MainStackNavigator = () => {
   useEffect(() => {
     const handleInitialScreen = async () => {
       try {
-        const isLoggedIn = await AsyncStorage.getItem('@authToken')
+        const isLoggedIn = await AuthStore?.loadToken()
         if (isLoggedIn) {
           navigation.reset({
             routes: [{name: 'HomeScreen'}],
           })
+          backendApi.logEvent('login')
         } else {
           navigation.reset({
             routes: [{name: 'LoginScreen'}],

@@ -28,7 +28,6 @@ const LoginScreen = () => {
   const [verificationCode, setVerificationCode] = useState('')
 
   const navigation = useNavigation()
-  const textInputRef = useRef()
   const animatedValue = new Animated.Value(0)
 
   const handleLogin = async () => {
@@ -41,6 +40,7 @@ const LoginScreen = () => {
         await UserStore?.setUserId(result?.userId)
 
         navigation.navigate('HomeScreen')
+        backendApi.logEvent('login')
       } else {
         Alert.alert(
           '',
@@ -84,9 +84,9 @@ const LoginScreen = () => {
       <StatusBar backgroundColor='#FFFFFF' barStyle='dark-content' />
       <View style={styles.container}>
         <Text style={styles.header}>
-          {phoneNumber?.length !== 11
-            ? '로그인/회원가입을 위해\n휴대폰 번호를 입력해 주세요'
-            : '고객님의 번호가 맞나요?'}
+          {phoneNumber.slice(0, 3) === '010' && phoneNumber?.length === 11
+            ? '고객님의 번호가 맞나요?'
+            : '로그인/회원가입을 위해\n휴대폰 번호를 입력해 주세요'}
         </Text>
         <TextInput
           style={styles.input}
