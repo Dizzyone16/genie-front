@@ -1,6 +1,6 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import MainStackNavigator from './navigation/MainStackNavigator';
+import React from 'react'
+import {NavigationContainer} from '@react-navigation/native'
+import MainStackNavigator from './navigation/MainStackNavigator'
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
       }}>
       <MainStackNavigator />
     </NavigationContainer>
-  );
-};
+  )
+}
 
-export default App;
+export default App
