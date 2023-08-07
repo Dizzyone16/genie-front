@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 72,
     marginBottom: 20,
+    color: 'black',
   },
   button: {
     height: '100%',

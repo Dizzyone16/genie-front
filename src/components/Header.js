@@ -40,6 +40,7 @@ const Header = ({headerType, title, query, handleSearch, setQuery}) => {
                 paddingHorizontal: 15,
                 height: 44,
                 alignItems: 'center',
+                color: 'black',
               }}
               placeholder='상품을 검색해보세요'
               placeholderTextColor='#8D94A0'
