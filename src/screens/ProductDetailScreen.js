@@ -18,6 +18,7 @@ import Header from '../components/Header'
 import {useNavigation} from '@react-navigation/native'
 import {BlurView} from '@react-native-community/blur'
 import backendApi from '../utils/backendApi'
+import LoadingIndicator from '../components/LoadingIndicator'
 
 const ArrowForward = require('../images/ArrowForward.png')
 
@@ -30,16 +31,19 @@ const ProductDetailScreen = ({route}) => {
   const navigation = useNavigation()
   const screenWidth = dims.width
   const [productDetailData, setProductDetailData] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
       try {
+        setIsLoading(true)
         const result = await backendApi?.getProductDetailData(catalogNumber)
         if (result?.status === 200) {
           if (result?.data) {
             setProductDetailData(result?.data)
           }
         }
+        setIsLoading(false)
         backendApi.logEvent('catalog_click', {catalogNumber: catalogNumber})
       } catch (err) {
         console.log(err)
@@ -60,6 +64,8 @@ const ProductDetailScreen = ({route}) => {
             insets.bottom > 30 ? insets?.bottom + 46 : insets?.bottom + 58,
         }}>
         <Header />
+
+        {isLoading && <LoadingIndicator />}
 
         {Object.keys(productDetailData).length > 0 && (
           <>
