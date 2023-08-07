@@ -1,6 +1,6 @@
 import fetchWrapper from './fetchWrapper'
 
-const backendUrl = 'http://3.134.214.183:3001'
+const backendUrl = 'https://genious.co.kr'
 
 class BackendApi {
   async loginOrRegisterUser(phoneNumber) {

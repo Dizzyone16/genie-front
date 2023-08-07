@@ -78,8 +78,8 @@ android {
         applicationId "com.genieproject"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 103
-        versionName "1.03"
+        versionCode 104
+        versionName "1.04"
     }
     signingConfigs {
         debug {
