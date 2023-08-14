@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Image,
 } from 'react-native'
-import FastImage from 'react-native-fast-image'
 
 // utils
 import ImageUtil from '../utils/ImageUtil'
@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
           justifyContent: 'center',
         }}>
         <View>
-          <FastImage source={genie} style={{width: 144, height: 48}} />
+          <Image source={genie} style={{width: 144, height: 48}} />
         </View>
 
         {/* Search Section */}

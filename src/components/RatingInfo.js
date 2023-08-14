@@ -1,12 +1,12 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import ImageUtil from '../utils/ImageUtil';
-import commaNumber from 'comma-number';
+import React from 'react'
+import {View, Text, StyleSheet} from 'react-native'
+import ImageUtil from '../utils/ImageUtil'
+import commaNumber from 'comma-number'
 
-const Rating = require('../images/Rating.png');
+const Rating = require('../images/Rating.png')
 
 const RatingInfo = ({ratingScore, ratingCount, style = {}}) => {
-  const hasRatingInfo = ratingScore && ratingCount;
+  const hasRatingInfo = ratingScore && ratingCount
 
   return (
     <View style={[styles.container, style]}>
@@ -22,12 +22,12 @@ const RatingInfo = ({ratingScore, ratingCount, style = {}}) => {
       )}
       {!hasRatingInfo && <View style={style} />}
     </View>
-  );
-};
+  )
+}
 
 RatingInfo.defaultProps = {
   style: {},
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     color: 'black',
   },
-});
+})
 
-export default RatingInfo;
+export default RatingInfo
