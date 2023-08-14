@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">지니</string>
+    <string name="facebook_app_id">222178174149282</string>
+    <string name="facebook_client_token">ea38056b0f108b8dc9eef4863add33bb</string>
 </resources>
